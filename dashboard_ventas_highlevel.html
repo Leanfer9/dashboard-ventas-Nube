@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard de Ventas</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .badge {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      box-shadow: var(--shadow);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .kpi-label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .kpi-value {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .kpi-sub {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap: 16px;
+    }
+
+    .chart-placeholder {
+      height: 280px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(0,0,0,.02));
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th { color: var(--muted); font-weight: 600; }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 14px; }
+      .grid { grid-template-columns: 1fr; }
+      .kpi-value { font-size: 26px; }
+      .title h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="title">
+        <h1>Dashboard de Ventas</h1>
+        <p>Resumen mensual de campañas y resultados comerciales</p>
+      </div>
+      <div class="badge">Actualizado: Marzo 2026</div>
+    </div>
+
+    <section class="grid">
+      <div class="card">
+        <div class="kpi-label">Inversión Meta Ads</div>
+        <div class="kpi-value">$1.250.000</div>
+        <div class="kpi-sub">Mes actual</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Facturación</div>
+        <div class="kpi-value">$7.800.000</div>
+        <div class="kpi-sub">Ventas cerradas</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">ROAS</div>
+        <div class="kpi-value">6,24</div>
+        <div class="kpi-sub">Retorno sobre inversión</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">CPA</div>
+        <div class="kpi-value">$52.000</div>
+        <div class="kpi-sub">Costo por adquisición</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Mensajes</div>
+        <div class="kpi-value">1.482</div>
+        <div class="kpi-sub">Consultas totales</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Costo por mensaje</div>
+        <div class="kpi-value">$843</div>
+        <div class="kpi-sub">Promedio del mes</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">CTR</div>
+        <div class="kpi-value">2,91%</div>
+        <div class="kpi-sub">Promedio de anuncios</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Ticket promedio</div>
+        <div class="kpi-value">$325.000</div>
+        <div class="kpi-sub">Ingreso por venta</div>
+      </div>
+    </section>
+
+    <section class="two-col">
+      <div class="card">
+        <h2 class="section-title">Evolución mensual</h2>
+        <div class="chart-placeholder">Acá podés insertar un gráfico o una imagen exportada</div>
+      </div>
+      <div class="card">
+        <h2 class="section-title">Resumen rápido</h2>
+        <table>
+          <tr><th>Métrica</th><th>Valor</th></tr>
+          <tr><td>Ventas</td><td>24</td></tr>
+          <tr><td>Tasa de cierre</td><td>1,62%</td></tr>
+          <tr><td>CPC</td><td>$285</td></tr>
+          <tr><td>CPM</td><td>$5.900</td></tr>
+          <tr><td>Conversión mensaje → venta</td><td>1,62%</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">Ventas cerradas del mes</h2>
+      <table>
+        <tr>
+          <th>Cliente</th>
+          <th>Teléfono</th>
+          <th>Producto</th>
+          <th>Valor</th>
+          <th>Estado</th>
+        </tr>
+        <tr><td>Mariana Sosa</td><td>11 4523-7812</td><td>Patricio Mix 2 plazas y media</td><td>$274.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Lucas Ferreyra</td><td>11 6184-2295</td><td>Sommier King Jacquard</td><td>$305.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Carla Medina</td><td>11 7395-1148</td><td>Patricio Mix 2 plazas y media</td><td>$268.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Javier Benítez</td><td>11 5241-9037</td><td>Sommier King Jacquard</td><td>$312.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Rocío Peralta</td><td>11 4308-6671</td><td>Patricio Mix 2 plazas y media</td><td>$279.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Diego Almada</td><td>11 6912-8450</td><td>Sommier King Jacquard</td><td>$318.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Valentina Rivas</td><td>11 5830-2716</td><td>Patricio Mix 2 plazas y media</td><td>$264.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Matías Quiroga</td><td>11 4765-3984</td><td>Sommier King Jacquard</td><td>$329.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Camila Duarte</td><td>11 7128-5563</td><td>Patricio Mix 2 plazas y media</td><td>$286.000</td><td>Venta cerrada</td></tr>
+        <tr><td>Federico Luna</td><td>11 6459-1028</td><td>Sommier King Jacquard</td><td>$375.000</td><td>Venta cerrada</td></tr>
+      </table>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="kpi-label">Total vendido</div>
+        <div class="kpi-value">$3.010.000</div>
+        <div class="kpi-sub">10 ventas cerradas</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Comisión</div>
+        <div class="kpi-value">$150.500</div>
+        <div class="kpi-sub">5% sobre el total vendido</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Promedio por venta</div>
+        <div class="kpi-value">$301.000</div>
+        <div class="kpi-sub">Ticket promedio ficticio</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Productos vendidos</div>
+        <div class="kpi-value">2</div>
+        <div class="kpi-sub">Patricio Mix y King Jacquard</div>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Este HTML es una base visual. Los números hoy son de ejemplo. Después lo adaptamos a tus métricas reales y a tu marca.
+    </div>
+  </div>
+</body>
+</html>
