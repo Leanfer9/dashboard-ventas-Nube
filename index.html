@@ -3,65 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard de Ventas</title>
+  <title>Mini App de Ventas</title>
   <style>
     :root {
-      --bg: #f5f7fb;
+      --bg: #f6f8fb;
       --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
-      --radius: 18px;
+      --text: #172033;
+      --muted: #667085;
+      --line: #e7ecf3;
+      --accent: #0f766e;
+      --ok: #067647;
+      --shadow: 0 12px 40px rgba(16, 24, 40, 0.08);
+      --radius: 20px;
     }
 
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Inter, Arial, Helvetica, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 24px;
     }
 
-    .wrap {
-      max-width: 1200px;
+    .app {
+      max-width: 1280px;
       margin: 0 auto;
+      padding: 24px;
       display: grid;
-      gap: 20px;
+      gap: 18px;
     }
 
-    .header {
+    .topbar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 16px;
       flex-wrap: wrap;
     }
 
     .title h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 30px;
+      line-height: 1.1;
     }
 
     .title p {
-      margin: 6px 0 0;
+      margin: 8px 0 0;
       color: var(--muted);
+      font-size: 14px;
     }
 
-    .badge {
+    .status-box {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 999px;
       padding: 10px 14px;
       box-shadow: var(--shadow);
+      display: flex;
+      gap: 12px;
+      align-items: center;
       font-size: 14px;
+      color: var(--muted);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ok);
+      display: inline-block;
     }
 
     .card {
@@ -69,47 +79,113 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+    }
+
+    .controls {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field button {
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0 14px;
+      background: #fff;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .field button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      min-width: 110px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .kpi {
       padding: 18px;
     }
 
-    .kpi-label {
+    .kpi .label {
+      font-size: 13px;
       color: var(--muted);
-      font-size: 14px;
       margin-bottom: 10px;
+      font-weight: 600;
     }
 
-    .kpi-value {
+    .kpi .value {
       font-size: 30px;
-      font-weight: 700;
+      font-weight: 800;
       line-height: 1.1;
+      letter-spacing: -0.02em;
     }
 
-    .kpi-sub {
+    .kpi .sub {
       margin-top: 8px;
       font-size: 13px;
       color: var(--muted);
     }
 
-    .section-title {
-      margin: 0 0 12px;
-      font-size: 18px;
-    }
-
-    .two-col {
+    .layout {
       display: grid;
-      grid-template-columns: 1.4fr .9fr;
+      grid-template-columns: 1.7fr .9fr;
       gap: 16px;
     }
 
-    .chart-placeholder {
-      height: 280px;
-      border: 1px dashed var(--line);
-      border-radius: 14px;
+    .table-wrap {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
       color: var(--muted);
-      background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(0,0,0,.02));
+      font-size: 13px;
+    }
+
+    .scroll {
+      overflow: auto;
+      max-height: 520px;
     }
 
     table {
@@ -119,151 +195,464 @@
     }
 
     th, td {
-      padding: 12px 10px;
+      padding: 14px 16px;
       text-align: left;
       border-bottom: 1px solid var(--line);
+      white-space: nowrap;
     }
 
-    th { color: var(--muted); font-weight: 600; }
-
-    .footer-note {
+    th {
+      position: sticky;
+      top: 0;
+      background: #fbfcfe;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      z-index: 1;
     }
 
-    @media (max-width: 980px) {
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .two-col { grid-template-columns: 1fr; }
+    tr:hover td {
+      background: #fbfdff;
     }
 
-    @media (max-width: 640px) {
-      body { padding: 14px; }
-      .grid { grid-template-columns: 1fr; }
-      .kpi-value { font-size: 26px; }
-      .title h1 { font-size: 22px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #ecfdf3;
+      color: var(--ok);
+      border: 1px solid #d1fadf;
+    }
+
+    .summary {
+      display: grid;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .summary-box {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: linear-gradient(180deg, #fff 0%, #fafcff 100%);
+    }
+
+    .summary-box h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 14px;
+      border-bottom: 1px dashed var(--line);
+      padding-bottom: 10px;
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .mini-note {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1120px) {
+      .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .layout { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .app { padding: 14px; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+      .controls { grid-template-columns: 1fr; }
+      .kpi .value { font-size: 24px; }
+      .title h1 { font-size: 24px; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="header">
+  <div class="app">
+    <div class="topbar">
       <div class="title">
-        <h1>Dashboard de Ventas</h1>
-        <p>Resumen mensual de campañas y resultados comerciales</p>
+        <h1>Mini App de Ventas</h1>
+        <p>Podés usar datos de ejemplo o conectar un Google Sheet publicado como CSV.</p>
       </div>
-      <div class="badge">Actualizado: Marzo 2026</div>
+      <div class="status-box">
+        <span class="dot"></span>
+        <span id="estadoConexion">Usando datos de ejemplo</span>
+      </div>
     </div>
 
-    <section class="grid">
-      <div class="card">
-        <div class="kpi-label">Inversión Meta Ads</div>
-        <div class="kpi-value">$1.250.000</div>
-        <div class="kpi-sub">Mes actual</div>
+    <section class="card controls">
+      <div class="field">
+        <label for="busqueda">Buscar por cliente o teléfono</label>
+        <input id="busqueda" type="text" placeholder="Ej: Mariana o 11 4523" />
       </div>
-      <div class="card">
-        <div class="kpi-label">Facturación</div>
-        <div class="kpi-value">$7.800.000</div>
-        <div class="kpi-sub">Ventas cerradas</div>
+      <div class="field">
+        <label for="productoFiltro">Producto</label>
+        <select id="productoFiltro">
+          <option value="todos">Todos</option>
+        </select>
       </div>
-      <div class="card">
-        <div class="kpi-label">ROAS</div>
-        <div class="kpi-value">6,24</div>
-        <div class="kpi-sub">Retorno sobre inversión</div>
+      <div class="field">
+        <label for="estadoFiltro">Estado</label>
+        <select id="estadoFiltro">
+          <option value="todos">Todos</option>
+          <option value="Venta cerrada">Venta cerrada</option>
+        </select>
       </div>
-      <div class="card">
-        <div class="kpi-label">CPA</div>
-        <div class="kpi-value">$52.000</div>
-        <div class="kpi-sub">Costo por adquisición</div>
+      <div class="field">
+        <label for="ordenFiltro">Ordenar por monto</label>
+        <select id="ordenFiltro">
+          <option value="desc">Mayor a menor</option>
+          <option value="asc">Menor a mayor</option>
+        </select>
       </div>
-      <div class="card">
-        <div class="kpi-label">Mensajes</div>
-        <div class="kpi-value">1.482</div>
-        <div class="kpi-sub">Consultas totales</div>
-      </div>
-      <div class="card">
-        <div class="kpi-label">Costo por mensaje</div>
-        <div class="kpi-value">$843</div>
-        <div class="kpi-sub">Promedio del mes</div>
-      </div>
-      <div class="card">
-        <div class="kpi-label">CTR</div>
-        <div class="kpi-value">2,91%</div>
-        <div class="kpi-sub">Promedio de anuncios</div>
-      </div>
-      <div class="card">
-        <div class="kpi-label">Ticket promedio</div>
-        <div class="kpi-value">$325.000</div>
-        <div class="kpi-sub">Ingreso por venta</div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button id="recargarBtn">Recargar</button>
       </div>
     </section>
 
-    <section class="two-col">
-      <div class="card">
-        <h2 class="section-title">Evolución mensual</h2>
-        <div class="chart-placeholder">Acá podés insertar un gráfico o una imagen exportada</div>
+    <section class="kpis">
+      <div class="card kpi">
+        <div class="label">Total vendido</div>
+        <div class="value" id="kpiTotal">$0</div>
+        <div class="sub" id="kpiVentas">0 ventas</div>
       </div>
-      <div class="card">
-        <h2 class="section-title">Resumen rápido</h2>
-        <table>
-          <tr><th>Métrica</th><th>Valor</th></tr>
-          <tr><td>Ventas</td><td>24</td></tr>
-          <tr><td>Tasa de cierre</td><td>1,62%</td></tr>
-          <tr><td>CPC</td><td>$285</td></tr>
-          <tr><td>CPM</td><td>$5.900</td></tr>
-          <tr><td>Conversión mensaje → venta</td><td>1,62%</td></tr>
-        </table>
+      <div class="card kpi">
+        <div class="label">Comisión total</div>
+        <div class="value" id="kpiComision">$0</div>
+        <div class="sub">5% sobre ventas filtradas</div>
       </div>
-    </section>
-
-    <section class="card">
-      <h2 class="section-title">Ventas cerradas del mes</h2>
-      <table>
-        <tr>
-          <th>Cliente</th>
-          <th>Teléfono</th>
-          <th>Producto</th>
-          <th>Valor</th>
-          <th>Estado</th>
-        </tr>
-        <tr><td>Mariana Sosa</td><td>11 4523-7812</td><td>Patricio Mix 2 plazas y media</td><td>$274.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Lucas Ferreyra</td><td>11 6184-2295</td><td>Sommier King Jacquard</td><td>$305.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Carla Medina</td><td>11 7395-1148</td><td>Patricio Mix 2 plazas y media</td><td>$268.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Javier Benítez</td><td>11 5241-9037</td><td>Sommier King Jacquard</td><td>$312.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Rocío Peralta</td><td>11 4308-6671</td><td>Patricio Mix 2 plazas y media</td><td>$279.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Diego Almada</td><td>11 6912-8450</td><td>Sommier King Jacquard</td><td>$318.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Valentina Rivas</td><td>11 5830-2716</td><td>Patricio Mix 2 plazas y media</td><td>$264.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Matías Quiroga</td><td>11 4765-3984</td><td>Sommier King Jacquard</td><td>$329.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Camila Duarte</td><td>11 7128-5563</td><td>Patricio Mix 2 plazas y media</td><td>$286.000</td><td>Venta cerrada</td></tr>
-        <tr><td>Federico Luna</td><td>11 6459-1028</td><td>Sommier King Jacquard</td><td>$375.000</td><td>Venta cerrada</td></tr>
-      </table>
-    </section>
-
-    <section class="grid">
-      <div class="card">
-        <div class="kpi-label">Total vendido</div>
-        <div class="kpi-value">$3.010.000</div>
-        <div class="kpi-sub">10 ventas cerradas</div>
+      <div class="card kpi">
+        <div class="label">Ticket promedio</div>
+        <div class="value" id="kpiTicket">$0</div>
+        <div class="sub">Promedio por venta</div>
       </div>
-      <div class="card">
-        <div class="kpi-label">Comisión</div>
-        <div class="kpi-value">$150.500</div>
-        <div class="kpi-sub">5% sobre el total vendido</div>
+      <div class="card kpi">
+        <div class="label">Producto más vendido</div>
+        <div class="value" id="kpiTopProducto">-</div>
+        <div class="sub" id="kpiTopCantidad">0 ventas</div>
       </div>
-      <div class="card">
-        <div class="kpi-label">Promedio por venta</div>
-        <div class="kpi-value">$301.000</div>
-        <div class="kpi-sub">Ticket promedio ficticio</div>
-      </div>
-      <div class="card">
-        <div class="kpi-label">Productos vendidos</div>
-        <div class="kpi-value">2</div>
-        <div class="kpi-sub">Patricio Mix y King Jacquard</div>
+      <div class="card kpi">
+        <div class="label">Monto más alto</div>
+        <div class="value" id="kpiMayorMonto">$0</div>
+        <div class="sub">Venta más alta del filtro</div>
       </div>
     </section>
 
-    <div class="footer-note">
-      Este HTML es una base visual. Los números hoy son de ejemplo. Después lo adaptamos a tus métricas reales y a tu marca.
-    </div>
+    <section class="layout">
+      <div class="card table-wrap">
+        <div class="section-head">
+          <div>
+            <h2>Ventas cargadas</h2>
+            <p>La tabla se actualiza cada vez que recargás o refrescás la página.</p>
+          </div>
+          <div class="mini-note" id="contadorRegistros">0 registros</div>
+        </div>
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Producto</th>
+                <th>Monto</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="tablaVentas">
+              <tr><td colspan="6" class="empty">Cargando datos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="card summary-box">
+          <h3>Resumen final</h3>
+          <div class="summary-list">
+            <div class="summary-item"><span>Total ventas filtradas</span><strong id="resumenCantidad">0</strong></div>
+            <div class="summary-item"><span>Total facturado</span><strong id="resumenFacturado">$0</strong></div>
+            <div class="summary-item"><span>Comisión 5%</span><strong id="resumenComision">$0</strong></div>
+            <div class="summary-item"><span>Ticket promedio</span><strong id="resumenPromedio">$0</strong></div>
+          </div>
+        </div>
+
+        <div class="card summary-box">
+          <h3>Productos</h3>
+          <div class="summary-list" id="resumenProductos">
+            <div class="summary-item"><span>Sin datos</span><strong>-</strong></div>
+          </div>
+        </div>
+
+        <div class="card summary-box">
+          <h3>Cómo conectarlo a Sheets</h3>
+          <div class="mini-note">
+            1. Publicá tu Google Sheet como CSV.<br>
+            2. Reemplazá la constante <strong>SHEET_CSV_URL</strong> en este archivo.<br>
+            3. Subí de nuevo el <strong>index.html</strong> a GitHub.<br>
+            4. Tu mini app va a leer los datos automáticamente.
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
+
+  <script>
+    // PEGÁ ACÁ TU URL CSV PUBLICADA DE GOOGLE SHEETS.
+    // Ejemplo: https://docs.google.com/spreadsheets/d/XXXX/export?format=csv&gid=0
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSus5shtcPorkhBpnOpiUhKDeZyUG-9Pe1VjGDk8C1pvFnAXVf4DW_aa0nrYjOB_5CNmSvOOz22VT_4/pub?gid=117405809&single=true&output=csv";
+
+    const DATASET_EJEMPLO = [
+      { Fecha: "2026-03-01", Cliente: "Mariana Sosa", Telefono: "11 4523-7812", Producto: "Patricio Mix 2 plazas y media", Monto: 274000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-02", Cliente: "Lucas Ferreyra", Telefono: "11 6184-2295", Producto: "Sommier King Jacquard", Monto: 305000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-03", Cliente: "Carla Medina", Telefono: "11 7395-1148", Producto: "Patricio Mix 2 plazas y media", Monto: 268000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-04", Cliente: "Javier Benítez", Telefono: "11 5241-9037", Producto: "Sommier King Jacquard", Monto: 312000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-05", Cliente: "Rocío Peralta", Telefono: "11 4308-6671", Producto: "Patricio Mix 2 plazas y media", Monto: 279000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-06", Cliente: "Diego Almada", Telefono: "11 6912-8450", Producto: "Sommier King Jacquard", Monto: 318000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-07", Cliente: "Valentina Rivas", Telefono: "11 5830-2716", Producto: "Patricio Mix 2 plazas y media", Monto: 264000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-08", Cliente: "Matías Quiroga", Telefono: "11 4765-3984", Producto: "Sommier King Jacquard", Monto: 329000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-09", Cliente: "Camila Duarte", Telefono: "11 7128-5563", Producto: "Patricio Mix 2 plazas y media", Monto: 286000, Estado: "Venta cerrada" },
+      { Fecha: "2026-03-10", Cliente: "Federico Luna", Telefono: "11 6459-1028", Producto: "Sommier King Jacquard", Monto: 375000, Estado: "Venta cerrada" }
+    ];
+
+    let ventasOriginales = [];
+
+    const els = {
+      estadoConexion: document.getElementById('estadoConexion'),
+      busqueda: document.getElementById('busqueda'),
+      productoFiltro: document.getElementById('productoFiltro'),
+      estadoFiltro: document.getElementById('estadoFiltro'),
+      ordenFiltro: document.getElementById('ordenFiltro'),
+      recargarBtn: document.getElementById('recargarBtn'),
+      tablaVentas: document.getElementById('tablaVentas'),
+      contadorRegistros: document.getElementById('contadorRegistros'),
+      kpiTotal: document.getElementById('kpiTotal'),
+      kpiVentas: document.getElementById('kpiVentas'),
+      kpiComision: document.getElementById('kpiComision'),
+      kpiTicket: document.getElementById('kpiTicket'),
+      kpiTopProducto: document.getElementById('kpiTopProducto'),
+      kpiTopCantidad: document.getElementById('kpiTopCantidad'),
+      kpiMayorMonto: document.getElementById('kpiMayorMonto'),
+      resumenCantidad: document.getElementById('resumenCantidad'),
+      resumenFacturado: document.getElementById('resumenFacturado'),
+      resumenComision: document.getElementById('resumenComision'),
+      resumenPromedio: document.getElementById('resumenPromedio'),
+      resumenProductos: document.getElementById('resumenProductos')
+    };
+
+    function formatoMoneda(valor) {
+      return new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        maximumFractionDigits: 0
+      }).format(valor || 0);
+    }
+
+    function parseMonto(valor) {
+      if (typeof valor === 'number') return valor;
+      return Number(String(valor || '0').replace(/[^\d,-]/g, '').replace(/\./g, '').replace(',', '.')) || 0;
+    }
+
+    function parseCSVLine(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        const next = line[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          result.push(current.trim());
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current.trim());
+      return result;
+    }
+
+    function csvATabla(texto) {
+      const lineas = texto.trim().split(/\r?\n/).filter(Boolean);
+      if (!lineas.length) return [];
+
+      const headers = parseCSVLine(lineas[0]);
+      return lineas.slice(1).map(linea => {
+        const valores = parseCSVLine(linea);
+        const fila = {};
+        headers.forEach((header, idx) => {
+          fila[header.trim()] = (valores[idx] || '').trim();
+        });
+        return {
+          Fecha: fila.Fecha || fila.fecha || '',
+          Cliente: fila.Cliente || fila.cliente || '',
+          Telefono: fila.Telefono || fila.Teléfono || fila.telefono || '',
+          Producto: fila.Producto || fila.producto || '',
+          Monto: parseMonto(fila.Monto || fila.monto || 0),
+          Estado: fila.Estado || fila.estado || 'Venta cerrada'
+        };
+      });
+    }
+
+    async function cargarDatos() {
+      try {
+        if (!SHEET_CSV_URL) {
+          ventasOriginales = DATASET_EJEMPLO;
+          els.estadoConexion.textContent = 'Usando datos de ejemplo';
+        } else {
+          const res = await fetch(SHEET_CSV_URL + (SHEET_CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now());
+          if (!res.ok) throw new Error('No se pudo leer el Google Sheet');
+          const text = await res.text();
+          const data = csvATabla(text);
+          if (!data.length) throw new Error('El Google Sheet no devolvió registros');
+          ventasOriginales = data;
+          els.estadoConexion.textContent = 'Conectado a Google Sheets';
+        }
+
+        cargarProductos();
+        render();
+      } catch (error) {
+        console.error(error);
+        ventasOriginales = DATASET_EJEMPLO;
+        els.estadoConexion.textContent = 'Error al leer Sheets. Usando ejemplo';
+        cargarProductos();
+        render();
+      }
+    }
+
+    function cargarProductos() {
+      const actual = els.productoFiltro.value;
+      const productos = [...new Set(ventasOriginales.map(v => v.Producto).filter(Boolean))];
+      els.productoFiltro.innerHTML = '<option value="todos">Todos</option>' + productos.map(p => `<option value="${p}">${p}</option>`).join('');
+      if (productos.includes(actual)) els.productoFiltro.value = actual;
+    }
+
+    function getFiltradas() {
+      const q = els.busqueda.value.trim().toLowerCase();
+      const producto = els.productoFiltro.value;
+      const estado = els.estadoFiltro.value;
+      const orden = els.ordenFiltro.value;
+
+      let data = ventasOriginales.filter(v => {
+        const matchBusqueda = !q ||
+          v.Cliente.toLowerCase().includes(q) ||
+          String(v.Telefono).toLowerCase().includes(q);
+
+        const matchProducto = producto === 'todos' || v.Producto === producto;
+        const matchEstado = estado === 'todos' || v.Estado === estado;
+
+        return matchBusqueda && matchProducto && matchEstado;
+      });
+
+      data.sort((a, b) => orden === 'asc' ? a.Monto - b.Monto : b.Monto - a.Monto);
+      return data;
+    }
+
+    function renderTabla(data) {
+      if (!data.length) {
+        els.tablaVentas.innerHTML = '<tr><td colspan="6" class="empty">No hay registros con ese filtro.</td></tr>';
+        els.contadorRegistros.textContent = '0 registros';
+        return;
+      }
+
+      els.tablaVentas.innerHTML = data.map(v => `
+        <tr>
+          <td>${v.Fecha || '-'}</td>
+          <td>${v.Cliente}</td>
+          <td>${v.Telefono}</td>
+          <td>${v.Producto}</td>
+          <td>${formatoMoneda(v.Monto)}</td>
+          <td><span class="tag">${v.Estado}</span></td>
+        </tr>
+      `).join('');
+
+      els.contadorRegistros.textContent = `${data.length} registros`;
+    }
+
+    function renderKPIs(data) {
+      const total = data.reduce((acc, item) => acc + item.Monto, 0);
+      const cantidad = data.length;
+      const promedio = cantidad ? total / cantidad : 0;
+      const comision = total * 0.05;
+      const mayorMonto = cantidad ? Math.max(...data.map(v => v.Monto)) : 0;
+
+      const conteoProductos = {};
+      data.forEach(item => {
+        conteoProductos[item.Producto] = (conteoProductos[item.Producto] || 0) + 1;
+      });
+
+      const topProducto = Object.entries(conteoProductos).sort((a, b) => b[1] - a[1])[0] || ['-', 0];
+
+      els.kpiTotal.textContent = formatoMoneda(total);
+      els.kpiVentas.textContent = `${cantidad} venta${cantidad === 1 ? '' : 's'}`;
+      els.kpiComision.textContent = formatoMoneda(comision);
+      els.kpiTicket.textContent = formatoMoneda(promedio);
+      els.kpiTopProducto.textContent = topProducto[0];
+      els.kpiTopCantidad.textContent = `${topProducto[1]} venta${topProducto[1] === 1 ? '' : 's'}`;
+      els.kpiMayorMonto.textContent = formatoMoneda(mayorMonto);
+
+      els.resumenCantidad.textContent = cantidad;
+      els.resumenFacturado.textContent = formatoMoneda(total);
+      els.resumenComision.textContent = formatoMoneda(comision);
+      els.resumenPromedio.textContent = formatoMoneda(promedio);
+
+      const productosHTML = Object.entries(conteoProductos)
+        .sort((a, b) => b[1] - a[1])
+        .map(([producto, cant]) => `<div class="summary-item"><span>${producto}</span><strong>${cant}</strong></div>`)
+        .join('') || '<div class="summary-item"><span>Sin datos</span><strong>-</strong></div>';
+
+      els.resumenProductos.innerHTML = productosHTML;
+    }
+
+    function render() {
+      const data = getFiltradas();
+      renderTabla(data);
+      renderKPIs(data);
+    }
+
+    els.busqueda.addEventListener('input', render);
+    els.productoFiltro.addEventListener('change', render);
+    els.estadoFiltro.addEventListener('change', render);
+    els.ordenFiltro.addEventListener('change', render);
+    els.recargarBtn.addEventListener('click', cargarDatos);
+
+    cargarDatos();
+  </script>
 </body>
 </html>
